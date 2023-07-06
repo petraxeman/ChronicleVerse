@@ -47,20 +47,20 @@ class Database:
         notes_nids: list = list(self.data[table].keys())[page * notes_per_page:(page * notes_per_page) + notes_per_page]
         return [self.data[table][nid] for nid in notes_nids]
 
-    def del_by_id(self, table: str, obj_id: int) -> None:
-        ' Delete note in table by id '
-        if obj_id not in self.data[table]:
+    def del_by_nid(self, table: str, nid: int) -> None:
+        ' Delete note in table by nid '
+        if nid not in self.data[table]:
             return
-        del self.data[table][obj_id]
+        del self.data[table][nid]
 
-    def get_by_id(self, table: str, obj_id: int) -> dict:
-        ' Return note by id '
-        if obj_id not in self.data[table]:
+    def get_by_nid(self, table: str, nid: int) -> dict:
+        ' Return note by nid '
+        if nid not in self.data[table]:
             return {}
-        return self.data[table][obj_id]
+        return self.data[table][nid]
 
     def bind(self, first: int, second: int) -> None:
-        ' Bind one obj_id to another obj_id '
+        ' Bind one nid to another nid '
         first_bindings = self.data['bindings'].get(first, [])
         first_bindings.append(second)
         self.data['bindings'][first] = first_bindings
@@ -70,7 +70,7 @@ class Database:
         self.data['bindings'][second] = second_bindings
 
     def unbind(self, first: int, second: int) -> None:
-        ' Delete bind bitween two obj_id'
+        ' Delete bind bitween two nid'
         first_bindings: list = self.data['bindings'].get(first, [])
         del first_bindings[first_bindings.index(second)]
         self.data['bindings'][first] = first_bindings
@@ -79,9 +79,9 @@ class Database:
         del second_bindings[second_bindings.index(first)]
         self.data['bindings'][second] = second_bindings
 
-    def get_binds(self, obj_id: int) -> list:
-        ' Get all binds from obj_id '
-        return self.data['bindings'].get(obj_id, [])
+    def get_binds(self, nid: int) -> list:
+        ' Get all binds from nid '
+        return self.data['bindings'].get(nid, [])
 
     def create_db(self, dbname: str) -> None:
         ' Creating empty database'
@@ -137,10 +137,18 @@ def rename_db(old_name: str, new_name: str) -> None:
         if filename == old_name:
             shutil.move(f'./db/{old_name}.{ext}', f'./db/{new_name}.{ext}')
 
+def rename_dbname(filename: str, new_dbname: str) -> None:
+    with shelve.open(f'./db/{filename}') as db:
+        general = db['general']
+        general['dbname'] = new_dbname
+        db['general'] = general
+
 def create_db(dbname: str, db_user_name: str) -> None:
     ''' Creating empty database
         Table names are taken from the folder ./markup
     '''
+    if db_user_name is None:
+        db_user_name = dbname
     db = shelve.open(f'./db/{dbname}')
     for filename in os.listdir('./markup'):
         tablename, ext = filename.split('.')
@@ -148,9 +156,19 @@ def create_db(dbname: str, db_user_name: str) -> None:
     
     db['bindings'] = {}
     db['chronolines'] = {}
-    db['general'] = {'current_id': 0, 'db_user_name': db_user_name}
+    db['general'] = {'current_id': 0, 'dbname': db_user_name}
     db.sync()
     db.close()
+
+def duplicate_db(dbfilename: str) -> None:
+    for file in os.listdir('./db'):
+        filename, ext = file.split('.')
+        if filename == dbfilename:
+            shutil.copy(f'./db/{file}', f'./db/{filename}_copy.{ext}')
+    with shelve.open(f'./db/{dbfilename}_copy') as db:
+        general = db['general']
+        general['dbname'] = general['dbname'] + ' Копия'
+        db['general'] = general
 
 def db_file_exist(dbname: str) -> bool:
     for file in os.listdir('./db/'):
@@ -159,7 +177,7 @@ def db_file_exist(dbname: str) -> bool:
             return True
     return False
 
-def get_database_list() -> list[str]:
+def get_database_filenames() -> list[str]:
     ' Return list of created database filenames '
     database_list: list = []
     for file in os.listdir('./db'):
@@ -168,8 +186,27 @@ def get_database_list() -> list[str]:
             database_list.append(filename)
     return database_list
 
-def nid_to_notes(nids: list[str]) -> list[dict]:
-    pass
+def get_database_dbnames() -> list[str]:
+    filenames: list = get_database_filenames()
+    dbnames: list = []
+    for filename in filenames:
+        with shelve.open(f'./db/{filename}') as db:
+            dbnames.append(db['general']['dbname'])
+    return dbnames
+
+def dbname_to_filename(dbname: str) -> str:
+    filenames: list = get_database_filenames()
+    for filename in filenames:
+        with shelve.open(f'./db/{filename}') as db:
+            if db['general']['dbname'] == dbname:
+                return filename
+
+def nid_to_notes(db: 'Database', nid_list: list[int]) -> list[dict]:
+    ' Convert notes nids to notes '
+    notes_list: list = []
+    for nid in nid_list:
+        notes_list.append(db.get_by_nid(nid))
+    return notes_list
 
 
 class DBException(Exception):
