@@ -17,7 +17,7 @@ def db_test_1():
     if not database.db_file_exist('test'):
         raise TestException('Test 1 failed [0]')
 
-    database.rename_db('test', 'also_test')
+    database.rename_db('test', 'also_test', 'dbname')
     if not database.db_file_exist('also_test'):
         raise TestException('Test 1 failed [1]')
     if database.db_file_exist('test'):

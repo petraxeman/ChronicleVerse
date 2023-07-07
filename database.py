@@ -91,10 +91,10 @@ class Database:
         ' Open db '
         self.data: shelve.Shelf = shelve.open(f'./db/{self.dbname}', writeback = self.auto_save)
     
-    def rename(self, new_name: str) -> None:
+    def rename(self, new_name: str, name_type: str = 'udbname') -> None:
         ' Save and close current db, rename and open again '
         self.close()
-        rename_db(self.dbname, new_name)
+        rename_db(self.dbname, new_name, name_type)
         self.dbname = new_name
         self.open()
 
@@ -129,19 +129,23 @@ def delete_db(dbname: str) -> None:
         if filename == dbname:
             os.remove(f'./db/{file}')
 
-def rename_db(old_name: str, new_name: str) -> None:
-    if not db_file_exist(old_name):
-        raise DBException("DB files not exist")
-    for file in os.listdir('./db/'):
-        filename, ext = file.split('.')
-        if filename == old_name:
-            shutil.move(f'./db/{old_name}.{ext}', f'./db/{new_name}.{ext}')
+def rename_db(dbfilename: str, new_name: str, name_type: str = 'udbname') -> None:
+    ''' Rename database depending "name_type"
+        name_type: str = 'udbname', 'dbname', 'both'
+    '''
+    if not db_file_exist(dbfilename):
+        raise DBException(f'DB files not exist [{dbfilename}]')
 
-def rename_dbname(filename: str, new_dbname: str) -> None:
-    with shelve.open(f'./db/{filename}') as db:
-        general = db['general']
-        general['dbname'] = new_dbname
-        db['general'] = general
+    if name_type in ['both', 'udbname']:
+        with shelve.open(f'./db/{dbfilename}') as db:
+            general = db['general']
+            general['udbname'] = new_name
+            db['general'] = general
+    if name_type in ['both', 'dbname']:
+        for file in os.listdir('./db/'):
+            filename, ext = file.split('.')
+            if filename == dbfilename:
+                shutil.move(f'./db/{dbfilename}.{ext}', f'./db/{new_name}.{ext}')
 
 def create_db(dbname: str, db_user_name: str) -> None:
     ''' Creating empty database
@@ -156,7 +160,7 @@ def create_db(dbname: str, db_user_name: str) -> None:
     
     db['bindings'] = {}
     db['chronolines'] = {}
-    db['general'] = {'current_id': 0, 'dbname': db_user_name}
+    db['general'] = {'current_id': 0, 'udbname': db_user_name}
     db.sync()
     db.close()
 
@@ -170,36 +174,31 @@ def duplicate_db(dbfilename: str) -> None:
         general['dbname'] = general['dbname'] + ' Копия'
         db['general'] = general
 
-def db_file_exist(dbname: str) -> bool:
-    for file in os.listdir('./db/'):
-        filename, ext = file.split('.')
-        if filename == dbname:
-            return True
-    return False
+def get_db_names(name_type: str) -> list[str] or dict[str:str]:
+    ' Return list of dbnames, udbnames or both '
+    dbnames: list  = list(set([name.split('.')[0].strip() for name in os.listdir('./')]))
+    udbnames: list = []
 
-def get_database_filenames() -> list[str]:
-    ' Return list of created database filenames '
-    database_list: list = []
-    for file in os.listdir('./db'):
-        filename, ext = file.split('.')
-        if filename not in database_list:
-            database_list.append(filename)
-    return database_list
+    if name_type == 'dbname':
+        return dbnames
+    elif name_type == 'udbname' or name_type == 'both':
+        for dbname in dbnames:
+            with shelve.open('./db/{dbname}') as db:
+                udbnames.append(db['general']['udbname'])
+        if name_type == 'udbname':
+            return udbnames
+    elif name_type == 'both':
+        return {dbname: udbnames[index] for index, dbname in enumerate(dbnames)}
 
-def get_database_dbnames() -> list[str]:
-    filenames: list = get_database_filenames()
-    dbnames: list = []
-    for filename in filenames:
-        with shelve.open(f'./db/{filename}') as db:
-            dbnames.append(db['general']['dbname'])
-    return dbnames
-
-def dbname_to_filename(dbname: str) -> str:
-    filenames: list = get_database_filenames()
-    for filename in filenames:
-        with shelve.open(f'./db/{filename}') as db:
-            if db['general']['dbname'] == dbname:
-                return filename
+def name_convert(name: str, convert_type: str) -> str:
+    ' Convert udbname or dbname to another '
+    all_names = get_db_names('both')
+    if convert_type == 'udb_to_db':
+        all_names = {all_names[dbname]: dbname for dbname in all_names}
+        return all_names.get(name, '')
+    elif convert_type == 'db_to_udb':
+        return all_names.get(name, '')
+    return ''
 
 def nid_to_notes(db: 'Database', nid_list: list[int]) -> list[dict]:
     ' Convert notes nids to notes '
@@ -207,6 +206,13 @@ def nid_to_notes(db: 'Database', nid_list: list[int]) -> list[dict]:
     for nid in nid_list:
         notes_list.append(db.get_by_nid(nid))
     return notes_list
+
+def db_file_exist(dbname: str) -> bool:
+    for file in os.listdir('./db/'):
+        filename, ext = file.split('.')
+        if filename == dbname:
+            return True
+    return False
 
 
 class DBException(Exception):
