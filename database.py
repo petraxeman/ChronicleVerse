@@ -158,9 +158,9 @@ def create_db(dbname: str, udbname: str) -> None:
     if udbname is None or udbname == '':
         udbname = dbname
     db = shelve.open(f'./db/{dbname}')
-    for filename in os.listdir('./markup'):
-        tablename, ext = filename.split('.')
-        db[tablename] = {}
+    #for filename in os.listdir('./markup'):
+    #    tablename, ext = filename.split('.')
+    #    db[tablename] = {}
     
     db['bindings'] = {}
     db['chronolines'] = {}
