@@ -1,7 +1,7 @@
 import os
 import shelve
 import shutil
-
+import pickle
 
 
 class Database:
@@ -131,28 +131,32 @@ def delete_db(dbname: str) -> None:
 
 def rename_db(dbfilename: str, new_name: str, name_type: str = 'udbname') -> None:
     ''' Rename database depending "name_type"
-        name_type: str = 'udbname', 'dbname', 'both'
+        name_type: str = 'udbname', 'dbname'
     '''
     if not db_file_exist(dbfilename):
         raise DBException(f'DB files not exist [{dbfilename}]')
 
-    if name_type in ['both', 'udbname']:
+    if name_type == 'udbname':
         with shelve.open(f'./db/{dbfilename}') as db:
             general = db['general']
             general['udbname'] = new_name
             db['general'] = general
-    if name_type in ['both', 'dbname']:
+    if name_type == 'dbname':
+        with shelve.open(f'./db/{dbfilename}') as db:
+            general = db['general']
+            general['dbname'] = new_name
+            db['general'] = general
         for file in os.listdir('./db/'):
             filename, ext = file.split('.')
             if filename == dbfilename:
                 shutil.move(f'./db/{dbfilename}.{ext}', f'./db/{new_name}.{ext}')
 
-def create_db(dbname: str, db_user_name: str) -> None:
+def create_db(dbname: str, udbname: str) -> None:
     ''' Creating empty database
         Table names are taken from the folder ./markup
     '''
-    if db_user_name is None:
-        db_user_name = dbname
+    if udbname is None or udbname == '':
+        udbname = dbname
     db = shelve.open(f'./db/{dbname}')
     for filename in os.listdir('./markup'):
         tablename, ext = filename.split('.')
@@ -160,7 +164,7 @@ def create_db(dbname: str, db_user_name: str) -> None:
     
     db['bindings'] = {}
     db['chronolines'] = {}
-    db['general'] = {'current_id': 0, 'udbname': db_user_name}
+    db['general'] = {'current_id': 0, 'udbname': udbname, 'dbname': dbname}
     db.sync()
     db.close()
 
@@ -171,23 +175,38 @@ def duplicate_db(dbfilename: str) -> None:
             shutil.copy(f'./db/{file}', f'./db/{filename}_copy.{ext}')
     with shelve.open(f'./db/{dbfilename}_copy') as db:
         general = db['general']
-        general['dbname'] = general['dbname'] + ' Копия'
+        general['udbname'] = general['udbname'] + ' Копия'
         db['general'] = general
+
+def export_db(dbname: str, path: str, filename: str) -> None:
+    package = {}
+    with shelve.open(f'./db/{dbname}') as db:
+        for section in db:
+            package[section] = db[section]
+    with open(os.path.join(path, f'{filename}.wad'), 'wb') as file:
+        pickle.dump(package, file)
+
+def import_db(path: str) -> None:
+    with open(path, 'rb') as file:
+        package = pickle.load(file)
+    with shelve.open(f'./db/{package["general"]["dbname"]}') as db:
+        for section in package:
+            db[section] = package[section]
 
 def get_db_names(name_type: str) -> list[str] or dict[str:str]:
     ' Return list of dbnames, udbnames or both '
-    dbnames: list  = list(set([name.split('.')[0].strip() for name in os.listdir('./')]))
+    dbnames: list  = list(set([name.split('.')[0].strip() for name in os.listdir('./db')]))
     udbnames: list = []
 
     if name_type == 'dbname':
         return dbnames
-    elif name_type == 'udbname' or name_type == 'both':
+    if name_type == 'udbname' or name_type == 'both':
         for dbname in dbnames:
-            with shelve.open('./db/{dbname}') as db:
+            with shelve.open(f'./db/{dbname}') as db:
                 udbnames.append(db['general']['udbname'])
         if name_type == 'udbname':
             return udbnames
-    elif name_type == 'both':
+    if name_type == 'both':
         return {dbname: udbnames[index] for index, dbname in enumerate(dbnames)}
 
 def name_convert(name: str, convert_type: str) -> str:

@@ -1,3 +1,119 @@
-<BoxLayout@ChoiceVaultWindow>:
-    orientation: vertical
-    
+#: import MDBoxLayout kivymd.uix.boxlayout
+#: import MDLabel kivymd.uix.label.label
+#: import MDBoxLayout kivymd.uix.boxlayout
+#: import MDList kivymd.uix.list.list
+#: import MDScrollView kivymd.uix.scrollview
+#: import MDStackLayout kivymd.uix.stacklayout
+#: import MDTextField kivymd.uix.textfield.textfield
+
+#: import MDRectangleFlatButton kivy.uix.button
+#: import MDFlatButton kivy.uix.button
+
+
+
+<WAScreenManager>:
+
+
+<ChoiceVaultWindow>:
+    name: 'choice_vault'
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        MDLabel:
+            size_hint: 1, 0.2
+            padding: 15
+            halign: 'left'
+            text: 'Выберите свое хранилище:'
+        MDBoxLayout:
+            orientation: 'horizontal'
+            MDScrollView:
+                do_scroll_x: False
+                MDList:
+                    id: listview
+                    size_hint: 0.7, None
+            MDStackLayout:
+                orientation: 'lr-tb'
+                size_hint: 0.3, 1
+                padding: 10
+                spacing: 10
+                MDRectangleFlatButton:
+                    text: 'Создать новое'
+                    on_release: root.create_new_db()
+                MDRectangleFlatButton:
+                    text: 'Редактировать'
+                    on_release: root.work_with_db()
+                MDRectangleFlatButton:
+                    text: 'Переименовать'
+                    on_release: root.rename_db()
+                MDRectangleFlatButton:
+                    text: 'Дублировать'
+                    on_release: root.duplicate_db()
+                MDRectangleFlatButton:
+                    text: 'Экспортировать'
+                    on_release: root.export_db()
+                MDRectangleFlatButton:
+                    text: 'Импортировать'
+                    on_release: root.import_db()
+                MDRectangleFlatButton:
+                    text: 'Удалить'
+                    on_release: root.delete_db()
+
+<CreateNewDialogContent>:
+    orientation: 'vertical'
+    size_hint_y: None
+    spacing: 10
+    height: dp(120)
+    MDTextField:
+        id: createdb_dbname
+        hint_text: 'Введите название файла'
+        mode: 'rectangle'
+    MDTextField:
+        id: createdb_udbname
+        hint_text: 'Введите название базы данных'
+        mode: 'rectangle'
+
+<RenameDBDialogContent>:
+    orientation: 'vertical'
+    size_hint_y: None
+    spacing: 10
+    height: dp(120)
+    MDTextField:
+        id: renamedb_dbname
+        hint_text: 'Имя файла базы данных'
+        mode: 'rectangle'
+    MDTextField:
+        id: renamedb_udbname
+        hint_text: 'Имя базы данных'
+        mode: 'rectangle'
+
+<ExportDBDialogContent>:
+    orientation: 'vertical'
+    size_hint_y: None
+    spacing: 10
+    height: dp(160)
+    MDLabel:
+        id: export_udbname_label
+    MDTextFieldFuncIcon:
+        id: choice_path
+        icon_right: 'folder'
+        hint_text: 'Путь к папке для экспорта'
+        icon_right_color_normal: '#83ccd4'
+        icon_right_color_focus: '#83ccd4'
+        mode: 'rectangle'
+    MDTextField:
+        id: filename
+        hint_text: 'Название файла'
+        mode: 'rectangle'
+
+<ImportDBDialogContent>:
+    orientation: 'vertical'
+    size_hint_y: None
+    spacing: 10
+    height: dp(80)
+    MDTextFieldFuncIcon:
+        id: choice_path
+        icon_right: 'file-document-multiple'
+        hint_text: 'Путь к файлу для импорта'
+        icon_right_color_normal: '#83ccd4'
+        icon_right_color_focus: '#83ccd4'
+        mode: 'rectangle'
