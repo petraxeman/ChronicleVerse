@@ -1,4 +1,5 @@
 import database as dbl
+import utils
 
 from kivy.lang.builder import Builder
 from kivymd.uix.boxlayout import BoxLayout
@@ -152,6 +153,9 @@ class ChoiceVaultWindow(Screen):
         self.dialog.content_cls.ids.choice_path.text = filedialog.askopenfilename()
         del root
 
+    def _validate(self, instance, text) -> None:
+        if not utils.filename_validator(text):
+            instance.error = True
     def _choice_list_element(self, dbname: str, udbname: str) -> None:
         for listitem in self.ids.listview.children:
             if f'list_item_{self.current_element[0]}' == listitem.id:

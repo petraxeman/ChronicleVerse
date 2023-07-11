@@ -5,22 +5,10 @@
     name: 'workspace'
     MDNavigationLayout:
         ScreenManager:
-            id: screenmngr
-            MDScreen:
-                name: 'first'
-                MDTopAppBar:
-                    id: toolbar
-                    title: ''
-                    elevation: 2
-                    pos_hint: {"top": 1}
-                    left_action_items: [['menu', lambda x: setattr(screenmngr, 'current', 'second')]] 
-                MDLabel:
-                    text: '1'
-            MDScreen:
-                name: 'second'
-                MDLabel:
-                    text: '2'
-        
+            Screen:
+                MDTabs:
+                    id: tabs
+                    on_ref_press: root.on_ref_press(*args)
         MDNavigationDrawer:
             id: nav_bar
             type: 'standard'
@@ -29,5 +17,38 @@
             MDNavigationDrawerMenu:
                 MDNavigationDrawerHeader:
                     title: 'WorldAtlas'
-        
-        
+                    text: 'v0.0.5'
+                    spacing: "4dp"
+                    padding: "12dp", 0, 0, "56dp"
+                MDNavigationDrawerLabel:
+                    text: 'Таблицы'
+                MDNavigationDrawerItem:
+                    icon: 'close'
+                    text: 'У вас нет таблиц'
+                    disabled: True
+                MDNavigationDrawerDivider:
+                MDNavigationDrawerLabel:
+                    icon_left: 'toolbox-outline'
+                    text: 'Сервис'
+                MDNavigationDrawerItem:
+                    icon: 'assistant'
+                    text: 'Ассистент'
+                    on_release: root._open_assistant_tab()
+                MDNavigationDrawerItem:
+                    icon: 'cogs'
+                    text: 'Настройки'
+                    on_release: root._open_settings_tab()
+                MDNavigationDrawerItem:
+                    icon: 'exit-to-app'
+                    text: 'Выход'
+                    on_release: root._exit()
+
+<SettingsTab>:
+    MDLabel:
+        text: 'Настройки'
+        halign: 'center'
+
+<AssistantTab>:
+    MDLabel:
+        text: 'Я Ассистент Дарви'
+        halign: 'center'

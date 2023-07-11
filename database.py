@@ -165,6 +165,7 @@ def create_db(dbname: str, udbname: str) -> None:
     db['bindings'] = {}
     db['chronolines'] = {}
     db['general'] = {'current_id': 0, 'udbname': udbname, 'dbname': dbname}
+    db['general']['tables'] = {}
     db.sync()
     db.close()
 

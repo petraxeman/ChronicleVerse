@@ -1,0 +1,23 @@
+    '''
+    MDNavigationLayout:
+        
+            
+        ScreenManager:
+            id: screenmngr
+            MDScreen:
+                name: 'first'
+                MDTopAppBar:
+                    id: toolbar
+                    title: ''
+                    elevation: 2
+                    pos_hint: {"top": 1}
+                    left_action_items: [['menu', lambda x: setattr(screenmngr, 'current', 'second')]] 
+                MDLabel:
+                    text: '1'
+            MDScreen:
+                name: 'second'
+                MDLabel:
+                    text: '2'
+        
+        
+        '''

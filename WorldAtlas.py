@@ -38,6 +38,5 @@ class WorldAtlasApp(App):
         Window.size = (1200, 600)
         return wasm
 
-
 if __name__ == '__main__':
     WorldAtlasApp().run()
