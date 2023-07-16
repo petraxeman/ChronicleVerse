@@ -16,7 +16,7 @@ from tkinter import filedialog
 import tkinter as tk 
 
 from ui_code.choice_vault import ChoiceVaultWindow
-from ui_code.work_space import WorkspaceWindow
+from ui_code.workspace import WorkspaceWindow
 import database as dbl
 
 

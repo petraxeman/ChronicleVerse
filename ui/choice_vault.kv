@@ -37,28 +37,35 @@
                 padding: 10
                 spacing: 10
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     text: 'Создать новое'
                     on_release: root.create_new_db()
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     id: edit_button
                     text: 'Редактировать'
                     on_release: root.work_with_db()
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     id: rename_button
                     text: 'Переименовать'
                     on_release: root.rename_db()
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     id: duplicate_button
                     text: 'Дублировать'
                     on_release: root.duplicate_db()
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     id: export_button
                     text: 'Экспортировать'
                     on_release: root.export_db()
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     text: 'Импортировать'
                     on_release: root.import_db()
                 MDRectangleFlatButton:
+                    size_hint: 1, None
                     id: delete_button
                     text: 'Удалить'
                     on_release: root.delete_db()

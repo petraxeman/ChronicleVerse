@@ -12,13 +12,13 @@ from kivymd.uix.scrollview import MDScrollView
 from kivymd.icon_definitions import md_icons
 from kivymd.font_definitions import fonts
 from widgets import MDTextFieldFuncIcon
-
+import utils
 from tkinter import filedialog
 import tkinter as tk
 
 
 
-Builder.load_file('./ui/work_space.kv')
+Builder.load_file('./ui/workspace.kv')
 
 class Tab(BoxLayout, MDTabsBase):
     pass
@@ -38,10 +38,10 @@ class WorkspaceWindow(Screen):
         self.ids.nav_bar.set_state('open')
     
     def _open_settings_tab(self, **kwargs) -> None:
-        self.ids.tabs.add_widget(SettingsTab(title=f'[ref="settings"][font={fonts[-1]["fn_regular"]}]{md_icons["close"]}[/font][/ref] Настройки'))
+        self.ids.tabs.add_widget(SettingsTab(title=utils.build_reftitle('Настройки')))
     
     def _open_assistant_tab(self, **kwargs) -> None:
-        self.ids.tabs.add_widget(AssistantTab(title=f'[ref="assistant"][font={fonts[-1]["fn_regular"]}]{md_icons["close"]}[/font][/ref] Ассистент'))
+        self.ids.tabs.add_widget(AssistantTab(title=utils.build_reftitle('Ассистент')))
     
     def _exit(self, **kwargs) -> None:
         self.manager.current = 'choice_vault'

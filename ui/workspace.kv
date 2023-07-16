@@ -44,9 +44,26 @@
                     on_release: root._exit()
 
 <SettingsTab>:
-    MDLabel:
-        text: 'Настройки'
-        halign: 'center'
+    MDScrollView:
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(10)
+            spacing: 10
+            MDBoxLayout:
+                size_hint: 1, None
+                orientation: 'horizontal'
+                MDRectangleFlatButton:
+                    text: 'Создать таблицу'
+            MDBoxLayout:
+                size_hint: 1, None
+                orientation: 'horizontal'
+                MDTextField:
+                    mode: 'rectangle'
+                    hint_text: 'Название таблицы'
+                MDRectangleFlatButton:
+                    text: 'Удалить таблицу'
+            Widget:
+    
 
 <AssistantTab>:
     MDLabel:
