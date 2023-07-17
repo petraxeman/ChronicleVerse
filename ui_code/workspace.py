@@ -26,6 +26,9 @@ class Tab(BoxLayout, MDTabsBase):
 class SettingsTab(MDScrollView, MDTabsBase):
     def __init__(self, *args, **kwargs):
         super(SettingsTab, self).__init__(*args, **kwargs)
+    
+    def _choice_table_to_delete(self):
+        print(2)
 
 class AssistantTab(MDScrollView, MDTabsBase):
     def __init__(self, *args, **kwargs):
