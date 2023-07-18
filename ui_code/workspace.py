@@ -2,6 +2,7 @@ import database as dbl
 
 from kivy.lang.builder import Builder
 from kivymd.uix.boxlayout import BoxLayout
+from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button.button import MDFlatButton
@@ -26,6 +27,11 @@ class Tab(BoxLayout, MDTabsBase):
 class SettingsTab(MDScrollView, MDTabsBase):
     def __init__(self, *args, **kwargs):
         super(SettingsTab, self).__init__(*args, **kwargs)
+        self._build_menus()
+
+    def _build_menus(self):
+        self.export_templates_menu = MDDropdownMenu()
+        
     
     def _choice_table_to_delete(self):
         print(2)

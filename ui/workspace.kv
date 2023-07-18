@@ -59,21 +59,34 @@
                 orientation: 'horizontal'
                 size_hint_y: None
                 height: self.minimum_height
-                halign: 'center'
                 spacing: dp(10)
                 MDTextFieldFuncIcon:
                     id: delete_tablename
                     icon_right: 'arrow-down-drop-circle-outline'
-                    icon_right_color_normal: '#83ccd4'
-                    icon_right_color_focus: '#83ccd4'
+                    icon_right_color_normal: '#389C46'
                     mode: 'rectangle'
                     hint_text: 'Название таблицы'
                     size_hint: None, None
-                    width: utils.fontsize_in_pixels(self.font_size, 'Название таблицы')[0] + 60
+                    width: utils.fontsize_in_pixels(self.font_size, 'Таблица Заклинаний и существ')[0] + 60
                     on_icon_press: root._choice_table_to_delete()
                 MDRectangleFlatButton:
                     text: 'Удалить таблицу'
-                    #pos_hint: {'center_y': .5}
+            MDBoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                MDTextFieldFuncIcon:
+                    id: export_tables
+                    icon_right: 'arrow-down-drop-circle-outline'
+                    icon_right_color_normal: '#389C46'
+                    mode: 'rectangle'
+                    hint_text: 'Шаблон экспорта'
+                    size_hint: None, None
+                    width: utils.fontsize_in_pixels(self.font_size, 'Шаблон Dungeon and Dragons 5e')[0] + 60
+                    on_icon_press: root._choice_template_to_export()
+                MDRectangleFlatButton:
+                    text: 'Экспортировать шаблон'
             Widget:
     
 
