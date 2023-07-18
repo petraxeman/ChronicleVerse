@@ -1,0 +1,8 @@
+{
+    "tables" : {
+        "spells" : {
+            "general": [],
+            "uix" : []
+        }
+    }
+}

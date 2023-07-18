@@ -21,10 +21,6 @@ import database as dbl
 
 
 
-
-
-
-
 class WAScreenManager(ScreenManager):
     pass
 

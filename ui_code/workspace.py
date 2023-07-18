@@ -28,13 +28,29 @@ class SettingsTab(MDScrollView, MDTabsBase):
     def __init__(self, *args, **kwargs):
         super(SettingsTab, self).__init__(*args, **kwargs)
         self._build_menus()
+        self._render_delete_table()
+        self._render_import_template()
 
     def _build_menus(self):
-        self.export_templates_menu = MDDropdownMenu()
-        
+        self.table_to_delete_menu = MDDropdownMenu(caller= self.ids.delete_tablename, position="center",width_mult=4)
+        self.table_to_delete_menu.bind()
+
+        self.import_template_menu = MDDropdownMenu(caller= self.ids.delete_tablename, position="center",width_mult=4)
+        self.import_template_menu.bind()
     
+    def _render_delete_table(self):
+        pass
+    
+    def _render_import_template(self):
+        self.import_template_menu.items = [{'viewclass':'OneLineListItem', 'text': name, 'on_release': lambda n=name: self._import_set_item(n)} for name in utils.get_import_templates()]
+
+    def _import_set_item(self, item_name: str) -> None:
+        self.ids.import_tables.text = item_name
+        self.import_template_menu.dismiss()
+
     def _choice_table_to_delete(self):
         print(2)
+
 
 class AssistantTab(MDScrollView, MDTabsBase):
     def __init__(self, *args, **kwargs):
