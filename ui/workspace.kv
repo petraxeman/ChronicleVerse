@@ -47,7 +47,7 @@
     MDScrollView:
         MDStackLayout:
             orientation: 'lr-tb'
-            padding: dp(10)
+            padding: dp(20)
             spacing: 10
             MDBoxLayout:
                 orientation: 'horizontal'
@@ -55,6 +55,7 @@
                 size_hint_y: None
                 MDRectangleFlatButton:
                     text: 'Создать таблицу'
+                    on_press: root._open_create_table_tab()
             MDBoxLayout:
                 orientation: 'horizontal'
                 size_hint_y: None
@@ -63,7 +64,7 @@
                 #MDTextFieldFuncIcon:
                 MDDropDownItem:
                     id: delete_tablename
-                    text: '-'
+                    text: ' Choice table '
                     size_hint: None, None
                     width: utils.fontsize_in_pixels(self.font_size, 'Таблица Заклинаний и существ')[0] + 60
                     on_press: root.choice_table_to_delete_menu.open()
@@ -76,7 +77,7 @@
                 spacing: dp(10)
                 MDDropDownItem:
                     id: import_tables
-                    text: '-'
+                    text: ' Choice template '
                     size_hint: None, None
                     width: utils.fontsize_in_pixels(self.font_size, 'Шаблон Dungeon and Dragons 5e')[0] + 60
                     on_press: root.import_template_menu.open()

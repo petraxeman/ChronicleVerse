@@ -1,0 +1,39 @@
+#: import FieldsContainer ui_code.workspace
+
+<CreateTableTab>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            orientation: 'horizontal'
+            height: self.minimum_height
+            size_hint_y: None
+            padding: dp(20)
+            spacing: dp(10)
+            MDRectangleFlatButton:
+                text: 'Сохранить'
+            MDRectangleFlatButton:
+                text: 'Добавить поле'
+                on_press: root._add_new_field()
+        MDScrollView:
+            do_scroll_x: True
+            do_scroll_y: False
+            MDBoxLayout:
+                id: field_container
+                orientation: 'vertical'
+
+
+<FieldsContainer>:
+    MDDropDownItem:
+        col: 1
+        row: 1
+        text: ' Тип данных '
+    MDTextField:
+        col: 2
+        row: 1
+        mode: 'rectangle'
+        hint_text: 'Кодовое имя'
+    MDTextField:
+        col: 3
+        row: 1
+        mode: 'rectangle'
+        hint_text: 'UI имя'
