@@ -31,23 +31,31 @@ class Tab(BoxLayout, MDTabsBase):
 class CreateTableTab(MDScrollView, MDTabsBase):
     def __init__(self, **kwargs):
         super(CreateTableTab, self).__init__(**kwargs)
-        #self.do_scroll_x = True
-        #self.do_scroll_y = False
-        self.cols = 3
-        self.rows = 2
 
     def _add_new_field(self, **kwargs):
         self.ids.field_container.add_widget(FieldsContainer())
+        self.ids.field_container.height = sum(child.height for child in self.children)
 
 
 class FieldsContainer(MDGridLayout):
     def __init__(self, **kwargs):
         super(FieldsContainer, self).__init__(**kwargs)
         self.height = self.minimum_height
+        raw_items = ['BackgroundImage', 'AvatarImage', 'GalleryImage']
+        menu_items = []
+        for item in raw_items:
+            menu_items.append({'text': item,
+                                'viewclass': 'OneLineListItem',
+                                'on_release': lambda n = item: self.set_datatype(n)})
+        self.choice_datetype = MDDropdownMenu(caller= self.ids.dropdownitem, items = menu_items, position="center",width_mult=4)
+        self.choice_datetype.bind()
 
+    def set_datatype(self, datatype: str):
+        self.ids.dropdownitem.text = datatype
+        self.choice_datetype.dismiss()
+    
     def get_data(self):
         return True
-
 
 
 class SettingsTab(MDScrollView, MDTabsBase):

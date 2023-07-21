@@ -15,18 +15,27 @@
                 text: 'Добавить поле'
                 on_press: root._add_new_field()
         MDScrollView:
-            do_scroll_x: True
-            do_scroll_y: False
-            MDBoxLayout:
+            do_scroll_y: True
+            MDGridLayout:
                 id: field_container
-                orientation: 'vertical'
-
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
 
 <FieldsContainer>:
+    cols: 3
+    rows: 2
+    size_hint_y: None
+    height: self.minimum_height
+    spacing: dp(5)
     MDDropDownItem:
+        id: dropdownitem
         col: 1
         row: 1
         text: ' Тип данных '
+        on_press: root.choice_datetype.open()
     MDTextField:
         col: 2
         row: 1
@@ -37,3 +46,8 @@
         row: 1
         mode: 'rectangle'
         hint_text: 'UI имя'
+    MDTextField:
+        col: 1
+        row: 1
+        mode: 'rectangle'
+        hint_text: 'Подсказка для ассистента'
