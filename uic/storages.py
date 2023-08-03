@@ -1,5 +1,5 @@
-import database as dbl
-import utils
+import cvlib.database as dbl
+import cvlib.utils as utils
 
 from kivy.lang.builder import Builder
 from kivymd.uix.boxlayout import BoxLayout
@@ -9,17 +9,17 @@ from kivymd.uix.button.button import MDFlatButton
 from kivy.metrics import dp
 from kivy.uix.screenmanager import Screen
 
-from widgets import MDTextFieldFuncIcon
+from cvlib.widgets import MDTextFieldFuncIcon
 
 from tkinter import filedialog
 import tkinter as tk
 
-Builder.load_file('./ui/choice_vault.kv')
+Builder.load_file('./uix/storages_view.kv')
 
 
-class ChoiceVaultWindow(Screen):
+class StoragesWindow(Screen):
     def __init__(self, *args, **kwargs):
-        super(ChoiceVaultWindow, self).__init__(**kwargs)
+        super(StoragesWindow, self).__init__(**kwargs)
         self.dialog = None
         self.current_element = ('', '')
         self.render_vaults_listview()

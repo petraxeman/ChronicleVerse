@@ -1,4 +1,4 @@
-import database
+import cvlib.database as database
 
 
 

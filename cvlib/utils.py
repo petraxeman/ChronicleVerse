@@ -1,8 +1,9 @@
 from kivymd.icon_definitions import md_icons
 from kivymd.font_definitions import fonts
-#from kivymd.uix.label import MDLabel
 from kivy.core.text import Label as CoreLabel
 import os
+
+
 
 def filename_validator(string: str) -> bool:
     alphabet = list('qwertyuiopasdfghjklzxcvbnm_')
@@ -26,3 +27,10 @@ def get_import_templates() -> tuple:
         templatename, ext = filename.split('.')
         _.append(templatename)
     return _
+
+
+def check_folders():
+    if not os.path.exists('./db'):
+        os.mkdir('./db')
+    if not os.path.exists('./table_templates'):
+        os.mkdir('./table_templates')

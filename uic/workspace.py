@@ -1,28 +1,18 @@
-import database as dbl
+import cvlib.database as dbl
 
 from kivy.lang.builder import Builder
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.list import OneLineListItem
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button.button import MDFlatButton
-from kivy.metrics import dp
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.tab.tab import MDTabsBase
 from kivymd.uix.scrollview import MDScrollView
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.icon_definitions import md_icons
-from kivymd.font_definitions import fonts
-from widgets import MDTextFieldFuncIcon
-import utils
-from tkinter import filedialog
-import tkinter as tk
+import cvlib.utils as utils
 
 
 
-Builder.load_file('./ui/workspace.kv')
-Builder.load_file('./ui/work_with_tables.kv')
+Builder.load_file('./uix/workspace_view.kv')
+Builder.load_file('./uix/tables_view.kv')
 
 class Tab(BoxLayout, MDTabsBase):
     pass

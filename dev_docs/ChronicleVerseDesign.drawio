@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" modified="2023-08-03T08:53:00.119Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="hLMLx1vlP9P0WDL1hxcE" version="21.6.6" type="device">
+  <diagram name="Страница 1" id="v9nB-Sz09EhQqfPfFZOd">
+    <mxGraphModel dx="457" dy="277" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="8l7dXHb7A2ATMkSNI6b_-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="320" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="8l7dXHb7A2ATMkSNI6b_-2" value="Storages view" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="8l7dXHb7A2ATMkSNI6b_-3" value="Выберите хранилище:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="300" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="8l7dXHb7A2ATMkSNI6b_-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="70" width="230" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
